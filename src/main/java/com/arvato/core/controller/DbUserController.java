@@ -8,6 +8,7 @@ import com.arvato.core.service.DbUserService;
 import com.arvato.core.utils.NumUtil;
 import com.arvato.core.utils.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -47,8 +48,17 @@ public class DbUserController extends BaseController {
 
 	@ApiOperation(value = "查询所有用户信息")
 	@RequestMapping(value = "/findAll",method = RequestMethod.GET)
-	public ResultInfo findAll(){
-		List<DbUser> list = dbUserController.findAll();
+	public ResultInfo findAll(@RequestParam("page") Integer page,@RequestParam("limit") Integer limit,
+							  @RequestParam("userid") Long userid,@RequestParam("address") String address){
+		Integer pageIndex = 1,pageSize =10;
+		if(StrUtil.isNotNull(request.getParameter("page"))){
+			pageIndex = Integer.valueOf(request.getParameter("page"));
+		}
+		if(StrUtil.isNotNull(request.getParameter("limit"))){
+			pageSize = Integer.valueOf(request.getParameter("limit"));
+		}
+		Page<DbUser> pages = new Page<DbUser>(pageIndex, pageSize);
+		Page<DbUser> list = dbUserController.findAll(pages,userid,address);
 		return renderSuccess(list);
 	}
 	@ApiOperation(value = "添加用户信息")

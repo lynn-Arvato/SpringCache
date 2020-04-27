@@ -1,6 +1,7 @@
 package com.arvato.core.service;
 
 import com.arvato.core.entity.DbUser;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
@@ -16,5 +17,5 @@ import java.util.List;
 public interface DbUserService extends IService<DbUser> {
 
 	DbUser findByUserid(Long UserId);
-	List<DbUser> findAll();
+	Page<DbUser> findAll(Page<DbUser> pages, Long userid, String address);
 }

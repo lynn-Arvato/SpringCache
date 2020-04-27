@@ -1,5 +1,6 @@
 package com.arvato.core.cache;
 
+import com.arvato.core.pojo.Operationutils;
 import com.arvato.core.service.RedisService;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -131,10 +132,10 @@ public class RedisAspect {
      * 判断字符串是否包含某个字段
      * **/
     public  Object ifBooleanStr(String str){
-        if(str.contains("del")){
-            return  "del";
-        }else if(str.contains("update")){
-            return  "update";
+        if(str.contains(Operationutils.DEL_OPERATION)){
+            return  Operationutils.DEL_OPERATION;
+        }else if(str.contains(Operationutils.UPDATE_OPERATION)){
+            return  Operationutils.UPDATE_OPERATION;
         }else{
             return  "";
         }

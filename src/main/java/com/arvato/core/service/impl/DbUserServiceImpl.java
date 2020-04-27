@@ -5,9 +5,11 @@ import com.arvato.core.annotation.RedisCache;
 import com.arvato.core.entity.DbUser;
 import com.arvato.core.mapper.DbUserMapper;
 import com.arvato.core.service.DbUserService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import java.util.List;
 
@@ -33,9 +35,9 @@ public class DbUserServiceImpl extends ServiceImpl<DbUserMapper, DbUser> impleme
 
 	@Override
 	@RedisCache
-	public List<DbUser> findAll() {
-		return dbUserMapper.selectList(null);
+	public Page<DbUser> findAll(Page<DbUser> pages, Long userid, String address) {
+		List<DbUser> list = dbUserMapper.selectList(new QueryWrapper<DbUser>().eq("userid",userid).eq("address",address));
+		pages.setRecords(list);
+		return pages;
 	}
-
-
 }
